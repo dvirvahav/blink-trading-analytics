@@ -4,4 +4,10 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  padding: 20px;
+}
+
+.App:has(.data-table-container) {
+  align-items: flex-start;
+  padding-top: 40px;
 }
