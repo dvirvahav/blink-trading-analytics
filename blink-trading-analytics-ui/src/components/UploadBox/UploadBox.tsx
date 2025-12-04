@@ -1,19 +1,10 @@
 import React, { useState, useRef } from 'react';
+import { ExcelData, UploadBoxProps } from '@types';
 import './UploadBox.css';
 
-interface ExcelData {
-  fileName: string;
-  totalRows: number;
-  columns: string[];
-  data: Record<string, any>[];
-  uploadedAt: string;
-}
 
-interface UploadBoxProps {
-  onDataReceived: (data: ExcelData) => void;
-}
 
-const UploadBox: React.FC<UploadBoxProps> = ({ onDataReceived }) => {
+export const UploadBox = ({ onDataReceived }: UploadBoxProps ) => {
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -85,6 +76,8 @@ const UploadBox: React.FC<UploadBoxProps> = ({ onDataReceived }) => {
     fileInputRef.current?.click();
   };
 
+
+  
   return (
     <div
       className={`upload-box ${isDragging ? 'dragging' : ''} ${isUploading ? 'uploading' : ''}`}
@@ -132,5 +125,3 @@ const UploadBox: React.FC<UploadBoxProps> = ({ onDataReceived }) => {
     </div>
   );
 };
-
-export default UploadBox;

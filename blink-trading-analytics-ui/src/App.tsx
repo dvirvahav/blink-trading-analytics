@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
-import UploadBox from './components/UploadBox';
-import DataTable from './components/DataTable';
+import { UploadBox, DataTable } from '@components';
+import { ExcelData } from '@types';
 
-interface ExcelData {
-  fileName: string;
-  totalRows: number;
-  columns: string[];
-  data: Record<string, any>[];
-  uploadedAt: string;
-}
-
-function App() {
+export const App = ()=> {
   const [excelData, setExcelData] = useState<ExcelData | null>(null);
 
   const handleDataReceived = (data: ExcelData) => {
@@ -23,10 +15,8 @@ function App() {
       {!excelData ? (
         <UploadBox onDataReceived={handleDataReceived} />
       ) : (
-        <DataTable data={excelData} />
+        <DataTable excelData={excelData} />
       )}
     </div>
   );
 }
-
-export default App;
