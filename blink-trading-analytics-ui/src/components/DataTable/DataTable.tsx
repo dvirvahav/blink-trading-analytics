@@ -1,10 +1,8 @@
 import { SearchBox } from '@fluentui/react-search';
 import { useState, useMemo } from 'react';
 import { DataTableProps } from '@types'
+import { TABLE_CONFIG } from '../../constants/table.constants'
 import './DataTable.css';
-
-// Pagination settings
-const ROWS_PER_PAGE = 50;
 
 /**
  * DataTable component.
@@ -31,9 +29,9 @@ export const DataTable = ({ excelData }: DataTableProps) => {
   }, [searchQuery, excelData.data, excelData.columns]);
 
   // Pagination calculations
-  const totalPages = Math.ceil(filteredData.length / ROWS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ROWS_PER_PAGE;
-  const endIndex = Math.min(startIndex + ROWS_PER_PAGE, filteredData.length);
+  const totalPages = Math.ceil(filteredData.length / TABLE_CONFIG.ROWS_PER_PAGE);
+  const startIndex = (currentPage - 1) * TABLE_CONFIG.ROWS_PER_PAGE;
+  const endIndex = Math.min(startIndex + TABLE_CONFIG.ROWS_PER_PAGE, filteredData.length);
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
   // Handle search change - updates search and resets page to 1
