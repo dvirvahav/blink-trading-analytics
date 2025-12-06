@@ -3,6 +3,9 @@ import { useState, useMemo } from 'react';
 import { DataTableProps } from '@types'
 import './DataTable.css';
 
+// Pagination settings
+const ROWS_PER_PAGE = 50;
+
 /**
  * DataTable component.
  * Displays Excel-like data with a global search across all columns.
@@ -11,6 +14,7 @@ import './DataTable.css';
 
 export const DataTable = ({ excelData }: DataTableProps) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Filter data based on search query across all fields
   const filteredData = useMemo(() => {
@@ -25,6 +29,18 @@ export const DataTable = ({ excelData }: DataTableProps) => {
       )
     );
   }, [searchQuery, excelData.data, excelData.columns]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredData.length / ROWS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ROWS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ROWS_PER_PAGE, filteredData.length);
+  const paginatedData = filteredData.slice(startIndex, endIndex);
+
+  // Handle search change - updates search and resets page to 1
+  const handleSearchChange = (newValue: string) => {
+    setSearchQuery(newValue);
+    setCurrentPage(1);
+  };
 
 
 
@@ -45,7 +61,7 @@ export const DataTable = ({ excelData }: DataTableProps) => {
         <SearchBox
           placeholder="Search across all fields..."
           value={searchQuery}
-          onChange={(_, newValue) => setSearchQuery(newValue?.value ?? '')}
+          onChange={(_, newValue) => handleSearchChange(newValue?.value ?? '')}
         />
       </div>
 
@@ -59,7 +75,7 @@ export const DataTable = ({ excelData }: DataTableProps) => {
             </tr>
           </thead>
           <tbody>
-            {filteredData?.map((row, rowIdx) => (
+            {paginatedData?.map((row, rowIdx) => (
               <tr key={rowIdx}>
                 {excelData.columns?.map((column, columnIdx) => (
                   <td key={columnIdx}>
@@ -71,6 +87,30 @@ export const DataTable = ({ excelData }: DataTableProps) => {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <div className="pagination-container">
+          <button
+            className="pagination-button"
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+
+          <span className="pagination-info">
+            Page {currentPage} of {totalPages} (showing rows {startIndex + 1}-{endIndex} of {filteredData.length} total)
+          </span>
+
+          <button
+            className="pagination-button"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

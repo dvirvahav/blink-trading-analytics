@@ -53,7 +53,7 @@ export const UploadBox = ({ onDataReceived }: UploadBoxProps ) => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:5000/api/upload/excel', {
+      const response = await fetch('http://localhost:5164/api/upload/excel', {
         method: 'POST',
         body: formData,
       });
