@@ -1,21 +1,5 @@
 import { useState, useCallback } from 'react';
-
-interface UsePaginationOptions {
-  totalItems: number;
-  rowsPerPage: number;
-  initialPage?: number;
-}
-
-interface UsePaginationReturn {
-  currentPage: number;
-  totalPages: number;
-  startIndex: number;
-  endIndex: number;
-  goToPage: (page: number) => void;
-  nextPage: () => void;
-  prevPage: () => void;
-  sliceData: <T>(dataArray: T[]) => T[];
-}
+import { UsePaginationOptions, UsePaginationReturn } from '@types';
 
 /**
  * Custom hook for pagination logic

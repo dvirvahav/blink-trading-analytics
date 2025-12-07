@@ -2,25 +2,8 @@ import { SearchBox } from '@fluentui/react-search';
 import { useState, useMemo, useEffect } from 'react';
 import { DataTableProps } from '@types'
 import { TABLE_CONFIG } from '../../constants/table.constants'
-import { usePagination } from '@hooks'
+import { usePagination, useDebounce } from '@hooks'
 import './DataTable.css';
-
-// Custom debounce hook
-const useDebounce = (value: string, delay: number) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-};
 
 /**
  * DataTable component.
@@ -90,6 +73,7 @@ export const DataTable = ({ excelData }: DataTableProps) => {
     const MAX_SEARCH_LENGTH = 100;
     const sanitized = newValue.slice(0, MAX_SEARCH_LENGTH);
     setSearchInput(sanitized);
+    goToPage(1);
   };
 
   // Early return guard - prevent crashes on invalid data
