@@ -65,13 +65,6 @@ export const DataTable = ({ excelData }: DataTableProps) => {
 
       <div className="table-wrapper">
         <table className="data-table">
-          <thead>
-            <tr>
-              {excelData.columns?.map((column, columnIdx) => (
-                <th key={columnIdx}>{column}</th>
-              ))}
-            </tr>
-          </thead>
           <tbody>
             {paginatedData?.map((row, rowIdx) => (
               <tr key={rowIdx}>

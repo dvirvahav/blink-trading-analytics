@@ -63,6 +63,7 @@
 }
 
 .table-wrapper {
+  direction: rtl;
   overflow-x: auto;
   overflow-y: auto;
   max-height: 70vh;
